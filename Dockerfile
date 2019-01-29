@@ -8,6 +8,8 @@ RUN apt-get install nodejs -y
 RUN /usr/bin/npm install -g n
 RUN /usr/bin/n 6.15.1
 
+COPY docker /code
+
 CMD rm -rf node_modules package-lock.json && \
 	/usr/bin/npm install && \
     sleep 5 && \
