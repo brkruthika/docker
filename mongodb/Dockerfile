@@ -9,4 +9,4 @@ RUN apt-get install -y mongodb-org
 
 COPY ./mongod.conf /etc/mongod.conf
 RUN mkdir -p /var/lib/mongo
-CMD mongod -f /etc/mongod.conf
+CMD mongod -f /etc/mongod.conf &
