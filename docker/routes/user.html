@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Node and MongoDB</title>
+</head>
+<!-- required src -->
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/export-data.js"></script>
+
+
+
+<body>
+    <h1>Enter the details</h1>
+
+    <!-- To add new entries -->
+
+    <form id='add'>
+        <label>Enter Your Name</label><br>
+        <input type="text" id="Name" placeholder="Enter first name..." required>
+        <input type="text" id="lName" placeholder="Enter last name..." required>
+        <input type="submit" value="Add Name" id="add">
+    </form>
+    
+    <!-- To update an old value to new value -->
+    
+    <form id='update'>
+        <label>Enter Your Name</label><br>
+        <input type="text" id="uName" placeholder="Enter first name..." required>
+        <input type="text" id="ulName" placeholder="Enter last name..." required>
+        <input type="text" id="cName" placeholder="Enter update for first name..." required>
+        <input type="text" id="clName" placeholder="Enter update for last name..." required>
+        <input type="submit" value="Update Name" id="update">
+    </form>
+
+    <!-- To delete a specific value  -->
+    
+    <form id='delete'>
+        <label>Enter Your Name</label><br>
+        <input type="text" id="dName" placeholder="Enter first name..." required>
+        <input type="text" id="dlName" placeholder="Enter last name..." required>
+        <input type="submit" value="delete" id="delete">
+    </form>
+
+    <!-- To get the details of database -->
+
+    <form id=get>
+        <label> Click on 'Get' to get list of database </label>
+        <input type="submit" value="Get" id="getname">
+    </form>
+
+    <div id="container" style="min-width: 310px; height: 400px; max-width: 600px; margin: 0 auto"></div>
+
+    <!-- To send all request through ajax -->
+
+    <script>
+        $(document).ready(function () {
+            // For new entry
+            $('#add').submit(function (e) {
+                e.preventDefault();
+                console.log("in add submit");
+                var data1 = {}
+                var data1 = { firstName: $("#Name").val(), lastName: $("#lName").val() };
+                $.ajax({
+                    url: '/users/testAdd',
+                    type: "POST",
+                    data: data1,
+                    success: (data) => console.log('success', data)
+                });
+            });
+            // For updation
+            $('#update').submit(function (e) {
+                e.preventDefault();
+                console.log("in update");
+                var data = {}
+                var data1 = { firstName: $("#uName").val(), lastName: $("#ulName").val(), changef: $("#cName").val(), changel: $("#clName").val() };
+                console.log(data1);
+                $.ajax({
+                    url: '/users/update',
+                    type: "PUT",
+                    data: data1,
+                    success: (data) => console.log('success', data)
+                });
+            });
+
+            // For deletion
+
+            $('#delete').submit(function (e) {
+                e.preventDefault();
+                console.log("in delete submit");
+                var data1 = {}
+                var data1 = { firstName: $("#dName").val(), lastName: $("#dlName").val() };
+                $.ajax({
+                    url: '/users/deletename',
+                    type: "DELETE",
+                    data: data1,
+                    success: (data) => console.log('success', data)
+                });
+            });
+
+            // Display all contents
+
+            $('#get').submit(function (e) {
+                e.preventDefault();
+                console.log("in get submit");
+                let highchartObj = {
+                    title: {
+                        text: 'Average Price'
+                    },
+                    subtitle: {
+                        text: 'Source: world.com'
+                    },
+                    xAxis: {
+                        categories: []
+                    },
+                    yAxis: {
+                        title: {
+                            text: 'Price'
+                        },
+                        plotLines: [{
+                            value: 0,
+                            width: 1,
+                            color: '#808080'
+                        }]
+                    },
+                    tooltip: {
+                        valueSuffix: ''
+                    },
+                    legend: {
+                        layout: 'vertical',
+                        align: 'right',
+                        verticalAlign: 'middle',
+                        borderWidth: 0
+                    },
+                    series: [{
+                        name: 'Price of vegetables',
+                        data: []
+                    }]
+                }
+                // ajax request for data
+                $.ajax({
+                    url: '/getlist',
+                    type: "GET",
+                    success: (data) => {
+                        console.log(data);
+                        highchartObj.xAxis.categories = data.year;
+                        highchartObj.series[0].data = data.price;
+                        Highcharts.chart('container', highchartObj);
+                    }
+                });
+            });
+        });
+    </script>
+
+</body>
+
+</html>

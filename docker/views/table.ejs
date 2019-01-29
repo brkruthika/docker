@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>List</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    <h1>Database contents</h1>
+    <table border="1">
+        <tr>
+            <th>Firstname</th>
+            <th>Lastname</th>
+        </tr>
+        <% for ( var i = 0; i <  title.length  ;  i++ ) {%>
+             <tr> 
+                <td><%=title[i].firstName%></td>
+                <td><%=title[i].lastName%></td> 
+            </tr>
+        <% } %>
+    </table>
+  </body>
+</html>
