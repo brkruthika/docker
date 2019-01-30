@@ -1,5 +1,4 @@
 let mongoose = require('mongoose');
-
 //Set up default mongoose connection
 
 var mongoDB = 'mongodb://mongodb/docker';
