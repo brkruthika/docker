@@ -1,7 +1,7 @@
 let mongoose = require('mongoose');
 
 //Set up default mongoose connection
-var mongoDB = 'mongodb://172.17.0.3/docker';
+var mongoDB = 'mongodb://mongodb/docker';
 mongoose.connect(mongoDB);
 // Get Mongoose to use the global promise library
 mongoose.Promise = global.Promise;
